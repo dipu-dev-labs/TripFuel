@@ -90,7 +90,7 @@ class TripFuelForegroundService : Service() {
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(title)
             .setContentText(content)
-            .setSmallIcon(android.R.drawable.ic_menu_compass)
+            .setSmallIcon(com.dj.tripfuel.R.drawable.tripfuel_logo)
             .setOngoing(true)
             .setOnlyAlertOnce(true)
             .setContentIntent(pendingIntent)
