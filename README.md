@@ -1,4 +1,4 @@
-# 🛵 TripFuel v1.3 – Flagship Real GPS Fuel Tracking, OpenStreetMap Engine & Nearby Radar
+# 🛵 TripFuel v1.4 – Flagship Real GPS Fuel Tracking, OpenStreetMap Engine & Pure Rider Radar
 
 <p align="center">
   <img src="./tripfuel_logo.png" alt="TripFuel App Logo" width="180" />
@@ -8,9 +8,9 @@
 
 ---
 
-## 📲 Direct APK Download (v1.3)
+## 📲 Direct APK Download (v1.4)
 
-📥 **[Click Here to Download TripFuel-v1.3.apk](https://github.com/dipu-dev-labs/TripFuel/releases/download/v1.3/TripFuel-v1.3.apk)**
+📥 **[Click Here to Download TripFuel-v1.4.apk](https://github.com/dipu-dev-labs/TripFuel/releases/download/v1.4/TripFuel-v1.4.apk)**
 
 ---
 
@@ -24,13 +24,13 @@
 
 ---
 
-## ✨ Key Features in v1.3
+## ✨ Key Features in v1.4
 
-- 🗺️ **Real OpenStreetMap (OSM) Vector Tiles:** Integrated full OpenStreetMap rendering (`osmdroid`) displaying real roads, street names, intersections, and live GPS route polyline.
-- 🎯 **100% Real GPS Engine (Demo Mode Removed):** Demo simulation mode removed entirely. App uses pure high-precision phone GPS sensor hardware. Stationary speed remains exact 0 km/h.
-- 📡 **OpenStreetMap Nearby Rider Radar:** Interactive OpenStreetMap dark vector radar displaying nearby delivery riders (Zomato, Swiggy, Rapido, Uber Moto, Porter) in 1 km radius.
+- 📡 **Pure Real-Time OpenStreetMap Nearby Rider Radar (No Mock Data):** Real-time spatial radar displaying active incoming delivery rider pings (Zomato, Swiggy, Rapido, Uber Moto, Porter) in 1 km radius.
+- 🗺️ **Real OpenStreetMap (OSM) Vector Tiles:** Full OpenStreetMap rendering (`osmdroid`) displaying real roads, street names, intersections, and live GPS route polyline.
+- 🎯 **100% Real GPS Engine:** Pure high-precision phone GPS sensor hardware. Stationary speed remains exact 0 km/h.
 - 🔔 **Proximity Sound & Crossing Notification Alerts:** Instant status bar notification & vibration alert when a fellow rider crosses or comes within 100 meters:
-  > 🛵 *Nearby Rider Alert! Zomato Rider (Rahul S.) is 80m away!*
+  > 🛵 *Nearby Rider Alert! Zomato Rider is 80m away!*
 - ⚡ **Stateless Ephemeral Relay (Zero Database Storage):** Location pings are handled purely in RAM memory over mobile data and auto-expire in 30 seconds. Zero disk storage & zero database costs.
 - 📊 **Weekly Stats & Profit vs. Petrol Dual Graph:** Home Dashboard card featuring 7-day Net Profit bars (Green) vs. Petrol Usage curve (Yellow).
 - 🎨 **Liquid Glass Design Language:** Deep dark background (`#0B0F14`), Neon Electric Green (`#00E676`) & Teal Cyan (`#64FFDA`) visual tokens, frosted glass cards, gradient borders, and 60fps micro-animations.

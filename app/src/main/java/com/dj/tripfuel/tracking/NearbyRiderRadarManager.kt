@@ -13,7 +13,6 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlin.math.*
-import kotlin.random.Random
 
 class NearbyRiderRadarManager(private val context: Context) {
     private val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
@@ -45,53 +44,27 @@ class NearbyRiderRadarManager(private val context: Context) {
         }
     }
 
+    /**
+     * Called when a real nearby rider ping is received over P2P/WebSockets.
+     */
+    fun registerIncomingRiderPing(rider: NearbyRiderModel) {
+        val currentList = _nearbyRiders.value.filterNot { it.id == rider.id }
+        _nearbyRiders.value = currentList + rider
+    }
+
     private fun startRadarScanning() {
         radarJob?.cancel()
         radarJob = scope.launch {
-            // Simulated center position (Mumbai / City Area)
-            val centerLat = 19.0760
-            val centerLng = 72.8777
-
             while (isActive && _isRadarEnabled.value) {
-                delay(3000L) // Scan & update proximity every 3 seconds
+                delay(4000L) // Purge expired pings older than 30s
 
-                // Generate active nearby delivery riders in 1km radius
-                val mockRiders = listOf(
-                    NearbyRiderModel(
-                        id = "rider_zomato_1",
-                        riderName = "Rahul S.",
-                        platform = "Zomato",
-                        latitude = centerLat + (Random.nextDouble() - 0.49) * 0.003,
-                        longitude = centerLng + (Random.nextDouble() - 0.49) * 0.003,
-                        distanceMeters = Random.nextFloat() * 180f + 60f,
-                        headingDegrees = Random.nextFloat() * 360f
-                    ),
-                    NearbyRiderModel(
-                        id = "rider_rapido_2",
-                        riderName = "Vikram K.",
-                        platform = "Rapido",
-                        latitude = centerLat + (Random.nextDouble() - 0.49) * 0.004,
-                        longitude = centerLng + (Random.nextDouble() - 0.49) * 0.004,
-                        distanceMeters = Random.nextFloat() * 350f + 120f,
-                        headingDegrees = Random.nextFloat() * 360f
-                    ),
-                    NearbyRiderModel(
-                        id = "rider_swiggy_3",
-                        riderName = "Amit P.",
-                        platform = "Swiggy",
-                        latitude = centerLat + (Random.nextDouble() - 0.49) * 0.005,
-                        longitude = centerLng + (Random.nextDouble() - 0.49) * 0.005,
-                        distanceMeters = Random.nextFloat() * 600f + 250f,
-                        headingDegrees = Random.nextFloat() * 360f
-                    )
-                )
-
-                _nearbyRiders.value = mockRiders
+                val now = System.currentTimeMillis()
+                val activeRiders = _nearbyRiders.value.filter { (now - it.lastSeenTimestamp) < 30000L }
+                _nearbyRiders.value = activeRiders
 
                 // Check for Proximity Crossing Alert (< 100 meters)
-                val closestRider = mockRiders.minByOrNull { it.distanceMeters }
+                val closestRider = activeRiders.minByOrNull { it.distanceMeters }
                 if (closestRider != null && closestRider.distanceMeters <= 100f) {
-                    val now = System.currentTimeMillis()
                     if (closestRider.id != lastNotifiedRiderId || (now - lastNotifiedTime) > 30000L) {
                         lastNotifiedRiderId = closestRider.id
                         lastNotifiedTime = now

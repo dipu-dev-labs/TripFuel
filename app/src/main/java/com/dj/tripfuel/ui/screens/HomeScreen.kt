@@ -297,7 +297,7 @@ fun HomeScreen(
                         }
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            text = "3 Fellow Riders Nearby (1km Range)",
+                            text = "Real-Time GPS Radar (1km Range)",
                             style = MaterialTheme.typography.titleMedium.copy(
                                 fontWeight = FontWeight.Bold,
                                 color = TextPrimary
