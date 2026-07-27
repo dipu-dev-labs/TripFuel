@@ -1,4 +1,4 @@
-# 🛵 TripFuel – Flagship GPS Fuel Tracking & Ride Profit Calculator
+# 🛵 TripFuel v1.1 – Flagship GPS Fuel Tracking & Ride Profit Calculator
 
 <p align="center">
   <img src="./tripfuel_logo.png" alt="TripFuel App Logo" width="180" />
@@ -8,7 +8,13 @@
 
 ---
 
-## ✨ Features
+## 📲 Direct APK Download (v1.1)
+
+📥 **[Click Here to Download TripFuel-v1.1.apk](https://github.com/dipu-dev-labs/TripFuel/releases/download/v1.1/TripFuel-v1.1.apk)**
+
+---
+
+## ✨ Key Features
 
 - 🎨 **Liquid Glass Design Language:** Deep dark background (`#0B0F14`), Neon Electric Green (`#00E676`) & Teal Cyan (`#64FFDA`) visual tokens, frosted glass cards, gradient borders, and 60fps micro-animations.
 - 📍 **High-Precision GPS Ride Tracking:** Tracks exact distance, ride duration, and live speed with continuous fuel cost calculations.
@@ -40,7 +46,7 @@
 
 1. Clone or open the repository in **Android Studio**:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/TripFuel.git
+   git clone https://github.com/dipu-dev-labs/TripFuel.git
    ```
 2. Build the project using Gradle:
    ```bash
