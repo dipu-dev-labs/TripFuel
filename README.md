@@ -16,10 +16,10 @@
 
 ## 📸 App Screenshots & Real Demo
 
-| **Home Dashboard** | **Live GPS Tracking** |
+| **Analytics & Settings** | **Live GPS Tracking** |
 |:---:|:---:|
 | <img src="./demo%20screen%20shot/6285335792322287027.jpg" width="260" alt="TripFuel Home Screen" /> | <img src="./demo%20screen%20shot/6285335792322287028.jpg" width="260" alt="TripFuel Live Tracking" /> |
-| **Ride Summary & Profits** | **Analytics & Settings** |
+| **Ride Summary & Profits** | **Home Dashboard** |
 | <img src="./demo%20screen%20shot/6285335792322287029.jpg" width="260" alt="TripFuel Summary" /> | <img src="./demo%20screen%20shot/6285335792322287030.jpg" width="260" alt="TripFuel Analytics" /> |
 
 ---
