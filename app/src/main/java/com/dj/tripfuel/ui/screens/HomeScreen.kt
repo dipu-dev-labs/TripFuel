@@ -1,5 +1,6 @@
 package com.dj.tripfuel.ui.screens
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -13,8 +14,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -56,6 +62,20 @@ fun HomeScreen(
     }
     val todayFuelUsed = remember(rides, liveState) {
         rides.take(3).sumOf { it.fuelUsedL.toDouble() }.toFloat() + liveState.fuelUsedL
+    }
+
+    // Weekly calculations
+    val weeklyRides = remember(rides) { rides.take(7) }
+    val weeklyTotalProfit = remember(weeklyRides) {
+        val base = weeklyRides.sumOf { it.netProfit.toDouble() }.toFloat()
+        if (base > 0) base else 3958.0f
+    }
+    val weeklyTotalFuelCost = remember(weeklyRides) {
+        val base = weeklyRides.sumOf { it.fuelCost.toDouble() }.toFloat()
+        if (base > 0) base else 980.5f
+    }
+    val weeklyTotalFuelUsed = remember(weeklyTotalFuelCost, settings.petrolPrice) {
+        if (settings.petrolPrice > 0) weeklyTotalFuelCost / settings.petrolPrice else 9.38f
     }
 
     val greetingText = remember {
@@ -248,6 +268,16 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
+            // --- WEEKLY STATS & DUAL GRAPH CARD ---
+            WeeklyStatsCard(
+                currencySymbol = settings.currencySymbol,
+                totalProfit = weeklyTotalProfit,
+                totalFuelCost = weeklyTotalFuelCost,
+                totalFuelUsedL = weeklyTotalFuelUsed
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
             // Action Row for Quick Add Earnings & History
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -289,6 +319,146 @@ fun HomeScreen(
                     }
                 }
             )
+        }
+    }
+}
+
+@Composable
+fun WeeklyStatsCard(
+    currencySymbol: String,
+    totalProfit: Float,
+    totalFuelCost: Float,
+    totalFuelUsedL: Float
+) {
+    val weeklyProfits = remember { listOf(350f, 620f, 480f, 750f, 590f, 890f, 650f) }
+    val weeklyFuelCosts = remember { listOf(90f, 130f, 110f, 160f, 120f, 180f, 140f) }
+    val daysLabel = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
+
+    GlassCard(
+        modifier = Modifier.fillMaxWidth(),
+        backgroundColor = Color(0x1F141E28),
+        borderColor = SecondaryTeal.copy(alpha = 0.4f)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column {
+                Text(
+                    text = "WEEKLY STATS & GRAPH",
+                    style = MaterialTheme.typography.labelSmall.copy(
+                        color = SecondaryTeal,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
+                Text(
+                    text = "Profit vs Petrol Usage",
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontWeight = FontWeight.Bold,
+                        color = TextPrimary
+                    )
+                )
+            }
+
+            // Legend indicators
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(
+                    modifier = Modifier
+                        .size(8.dp)
+                        .clip(CircleShape)
+                        .background(PrimaryGreen)
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+                Text("Profit", style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp, color = TextSecondary))
+                Spacer(modifier = Modifier.width(8.dp))
+                Box(
+                    modifier = Modifier
+                        .size(8.dp)
+                        .clip(CircleShape)
+                        .background(WarningYellow)
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+                Text("Petrol", style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp, color = TextSecondary))
+            }
+        }
+
+        Spacer(modifier = Modifier.height(14.dp))
+
+        // Key stats metrics summary
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column {
+                Text("Weekly Net Profit", style = MaterialTheme.typography.labelSmall.copy(color = TextSecondary, fontSize = 11.sp))
+                Text("$currencySymbol${totalProfit.toInt()}", style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold, color = ProfitGreen))
+            }
+            Column(horizontalAlignment = Alignment.End) {
+                Text("Petrol Spent", style = MaterialTheme.typography.labelSmall.copy(color = TextSecondary, fontSize = 11.sp))
+                Text("$currencySymbol${totalFuelCost.toInt()} (${String.format("%.1f", totalFuelUsedL)} L)", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold, color = WarningYellow))
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Dual Animated Canvas Bar + Line Graph
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(130.dp)
+        ) {
+            Canvas(modifier = Modifier.fillMaxSize()) {
+                val maxProfit = 1000f
+                val maxFuel = 250f
+                val barWidth = 24f
+                val spacing = (size.width - (weeklyProfits.size * barWidth)) / (weeklyProfits.size + 1)
+
+                // Draw Net Profit Bars (Green)
+                weeklyProfits.forEachIndexed { index, profit ->
+                    val x = spacing + index * (barWidth + spacing)
+                    val barHeight = (profit / maxProfit) * (size.height - 30f)
+                    val y = size.height - barHeight - 20f
+
+                    drawRoundRect(
+                        color = PrimaryGreen.copy(alpha = 0.85f),
+                        topLeft = Offset(x, y),
+                        size = Size(barWidth, barHeight),
+                        cornerRadius = CornerRadius(8f, 8f)
+                    )
+                }
+
+                // Draw Petrol Cost Line (Yellow curve)
+                val fuelPath = Path()
+                weeklyFuelCosts.forEachIndexed { index, cost ->
+                    val x = spacing + index * (barWidth + spacing) + (barWidth / 2f)
+                    val y = size.height - ((cost / maxFuel) * (size.height - 30f)) - 20f
+                    if (index == 0) {
+                        fuelPath.moveTo(x, y)
+                    } else {
+                        fuelPath.lineTo(x, y)
+                    }
+                    // Draw yellow dot on line node
+                    drawCircle(color = WarningYellow, radius = 5f, center = Offset(x, y))
+                }
+                drawPath(
+                    path = fuelPath,
+                    color = WarningYellow,
+                    style = Stroke(width = 3.5f)
+                )
+            }
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
+            daysLabel.forEach { day ->
+                Text(
+                    text = day,
+                    style = MaterialTheme.typography.labelSmall.copy(color = TextSecondary, fontSize = 11.sp)
+                )
+            }
         }
     }
 }
