@@ -39,7 +39,7 @@ class RideTrackingManager {
     private var lastLat = 19.0760
     private var lastLng = 72.8777
 
-    fun startRide(mileage: Float, petrolPrice: Float, enableSimulation: Boolean = false) {
+    fun startRide(mileage: Float, petrolPrice: Float) {
         if (_liveState.value.isRiding) return
         this.mileageKmL = if (mileage > 0) mileage else 55.0f
         this.petrolPricePerL = if (petrolPrice > 0) petrolPrice else 104.50f
@@ -54,7 +54,7 @@ class RideTrackingManager {
             fuelCost = 0.0f,
             earnings = 0.0f,
             netProfit = 0.0f,
-            isSimulationMode = enableSimulation,
+            isSimulationMode = false,
             routePoints = initialPoints
         )
 

@@ -191,9 +191,6 @@ class MainActivity : ComponentActivity() {
                                     onToggleBatterySaver = {
                                         trackingManager.toggleBatterySaver()
                                     },
-                                    onToggleSimulationMode = {
-                                        trackingManager.toggleSimulationMode()
-                                    },
                                     onBackClick = {
                                         currentDestination = AppDestination.MAIN_SHELL
                                     }
