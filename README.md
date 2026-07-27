@@ -14,6 +14,15 @@
 
 ---
 
+## 📸 App Screenshots & Preview
+
+| **Home Dashboard** | **Live GPS Tracking** | **Analytics & Charts** |
+|:---:|:---:|:---:|
+| <img src="./screenshots/home_dashboard.png" width="260" alt="Home Dashboard" /> | <img src="./screenshots/live_tracking.png" width="260" alt="Live GPS Tracking" /> | <img src="./screenshots/analytics_charts.png" width="260" alt="Analytics Charts" /> |
+| Rider Greeting, 2x2 Stat Grid & START RIDE FAB | Live Speedometer, Trail Path & Cost HUD | Weekly Profit Bars, Line Graphs & Insights |
+
+---
+
 ## ✨ Key Features
 
 - 🎨 **Liquid Glass Design Language:** Deep dark background (`#0B0F14`), Neon Electric Green (`#00E676`) & Teal Cyan (`#64FFDA`) visual tokens, frosted glass cards, gradient borders, and 60fps micro-animations.
