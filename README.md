@@ -14,12 +14,13 @@
 
 ---
 
-## 📸 App Screenshots & Preview
+## 📸 App Screenshots & Real Demo
 
-| **Home Dashboard** | **Live GPS Tracking** | **Analytics & Charts** |
-|:---:|:---:|:---:|
-| <img src="./screenshots/home_dashboard.png" width="260" alt="Home Dashboard" /> | <img src="./screenshots/live_tracking.png" width="260" alt="Live GPS Tracking" /> | <img src="./screenshots/analytics_charts.png" width="260" alt="Analytics Charts" /> |
-| Rider Greeting, 2x2 Stat Grid & START RIDE FAB | Live Speedometer, Trail Path & Cost HUD | Weekly Profit Bars, Line Graphs & Insights |
+| **Home Dashboard** | **Live GPS Tracking** |
+|:---:|:---:|
+| <img src="./demo%20screen%20shot/6285335792322287027.jpg" width="260" alt="TripFuel Home Screen" /> | <img src="./demo%20screen%20shot/6285335792322287028.jpg" width="260" alt="TripFuel Live Tracking" /> |
+| **Ride Summary & Profits** | **Analytics & Settings** |
+| <img src="./demo%20screen%20shot/6285335792322287029.jpg" width="260" alt="TripFuel Summary" /> | <img src="./demo%20screen%20shot/6285335792322287030.jpg" width="260" alt="TripFuel Analytics" /> |
 
 ---
 
@@ -62,6 +63,12 @@
    ./gradlew assembleDebug
    ```
 3. Run on an Android Device or Emulator (Android 7.0 / API 24+).
+
+---
+
+## 🔗 Official Repository Link
+
+📌 **GitHub Repository:** [https://github.com/dipu-dev-labs/TripFuel](https://github.com/dipu-dev-labs/TripFuel)
 
 ---
 
