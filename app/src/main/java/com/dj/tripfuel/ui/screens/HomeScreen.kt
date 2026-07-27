@@ -2,6 +2,7 @@ package com.dj.tripfuel.ui.screens
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -42,7 +43,8 @@ fun HomeScreen(
     onStopRide: () -> Unit,
     onOpenLiveMap: () -> Unit,
     onOpenEarningsDialog: () -> Unit,
-    onOpenHistory: () -> Unit
+    onOpenHistory: () -> Unit,
+    onOpenNearbyRadar: () -> Unit
 ) {
     val settings = remember { repository.getSettings() }
     val rides = remember { repository.getRides() }
@@ -267,6 +269,53 @@ fun HomeScreen(
             }
 
             Spacer(modifier = Modifier.height(20.dp))
+
+            // --- NEARBY RIDERS RADAR WIDGET CARD ---
+            GlassCard(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable(onClick = onOpenNearbyRadar),
+                backgroundColor = Color(0x2664FFDA),
+                borderColor = SecondaryTeal
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Default.Radar, contentDescription = null, tint = SecondaryTeal, modifier = Modifier.size(16.dp))
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text(
+                                text = "NEARBY RIDERS RADAR",
+                                style = MaterialTheme.typography.labelSmall.copy(
+                                    color = SecondaryTeal,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = "3 Fellow Riders Nearby (1km Range)",
+                            style = MaterialTheme.typography.titleMedium.copy(
+                                fontWeight = FontWeight.Bold,
+                                color = TextPrimary
+                            )
+                        )
+                    }
+
+                    GlassButton(
+                        text = "RADAR",
+                        icon = Icons.Default.LocationOn,
+                        onClick = onOpenNearbyRadar,
+                        isPrimary = false,
+                        modifier = Modifier.height(38.dp)
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
 
             // --- WEEKLY STATS & DUAL GRAPH CARD ---
             WeeklyStatsCard(

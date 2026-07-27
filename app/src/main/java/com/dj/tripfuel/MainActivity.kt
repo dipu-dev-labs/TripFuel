@@ -40,12 +40,14 @@ enum class AppDestination {
     SETUP,
     MAIN_SHELL,
     LIVE_MAP,
-    RIDE_SUMMARY
+    RIDE_SUMMARY,
+    NEARBY_RADAR
 }
 
 class MainActivity : ComponentActivity() {
 
     private lateinit var repository: TripFuelRepository
+    private lateinit var nearbyRadarManager: com.dj.tripfuel.tracking.NearbyRiderRadarManager
     private val trackingManager = RideTrackingManager()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +55,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         repository = TripFuelRepository(applicationContext)
+        nearbyRadarManager = com.dj.tripfuel.tracking.NearbyRiderRadarManager(applicationContext)
         com.dj.tripfuel.tracking.TripFuelServiceBridge.liveStateFlow = trackingManager.liveState
 
         setContent {
@@ -147,6 +150,9 @@ class MainActivity : ComponentActivity() {
                                                 },
                                                 onOpenHistory = {
                                                     selectedTab = 1
+                                                },
+                                                onOpenNearbyRadar = {
+                                                    currentDestination = AppDestination.NEARBY_RADAR
                                                 }
                                             )
                                             1 -> HistoryScreen(
@@ -204,6 +210,15 @@ class MainActivity : ComponentActivity() {
                                         }
                                     )
                                 }
+                            }
+
+                            AppDestination.NEARBY_RADAR -> {
+                                NearbyRidersScreen(
+                                    radarManager = nearbyRadarManager,
+                                    onBackClick = {
+                                        currentDestination = AppDestination.MAIN_SHELL
+                                    }
+                                )
                             }
                         }
 
